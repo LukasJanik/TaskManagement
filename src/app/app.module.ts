@@ -21,6 +21,8 @@ import {CookieService} from "ngx-cookie-service";
 import { TaskListComponent } from './components/task-list/task-list.component';
 import {UserEffects} from "./store/Effects/user.effects";
 import {HttpClientModule} from "@angular/common/http";
+import {MatCardModule} from "@angular/material/card";
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import {HttpClientModule} from "@angular/common/http";
     SocialLoginModule,
     MatToolbarModule,
     MatButtonModule,
-    MatMenuModule
+    MatMenuModule,
+    MatCardModule,
+    DragDropModule
   ],
   providers: [
     {
