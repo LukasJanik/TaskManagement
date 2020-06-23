@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  host: () => {
+    return window.location.protocol + '//' + window.location.hostname;
+  },
 };

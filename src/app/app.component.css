@@ -3,3 +3,21 @@
   flex-grow: 1;
   justify-content: space-between;
 }
+
+.w-100 {
+  width: 100%;
+}
+
+.primary {
+  color: #673ab7
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.avatar {
+  width: 30px;
+  border-radius: 15px;
+  margin-right: 10px;
+}

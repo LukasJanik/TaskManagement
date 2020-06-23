@@ -3,10 +3,13 @@
     Task list sample app
   </div>
   <div>
-    <ng-container *ngIf="user$ | async">
-      <button mat-button [matMenuTriggerFor]="menu">User name</button>
+    <ng-container *ngIf="user$ | async; let user;">
+      <button mat-button [matMenuTriggerFor]="menu">
+        <img class="avatar mat-elevation-z3" [src]="user.photo_url">
+        {{user.name}}
+      </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item>Log out</button>
+        <button mat-menu-item (click)="signOut()">Log out</button>
       </mat-menu>
     </ng-container>
   </div>
