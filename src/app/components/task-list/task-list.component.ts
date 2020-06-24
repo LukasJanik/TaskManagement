@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
+import {MatDialog} from "@angular/material/dialog";
+import {TaskDetailComponent} from "../task-detail/task-detail.component";
 
 @Component({
   selector: 'app-task-list',
@@ -31,7 +33,20 @@ export class TaskListComponent implements OnInit {
     'Walk dog'
   ];
 
-  constructor() { }
+  constructor(public dialog: MatDialog) {
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(TaskDetailComponent, {
+      width: '500px',
+      // data: {name: this.name, animal: this.animal}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      // this.animal = result;
+    });
+  }
 
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
@@ -43,6 +58,8 @@ export class TaskListComponent implements OnInit {
         event.currentIndex);
     }
   }
+
+
 
   ngOnInit(): void {
   }

@@ -1,0 +1,41 @@
+<form #form>
+  <h1 mat-dialog-title class="primary">Create new task</h1>
+  <div mat-dialog-content>
+    <mat-form-field appearance="outline">
+      <mat-label>Task name</mat-label>
+      <input matInput name="name" [(ngModel)]="data.name" required >
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Task description</mat-label>
+      <textarea matInput name="description" [(ngModel)]="data.description"></textarea>
+    </mat-form-field>
+    <div class="flex-row">
+      <div class="mr">
+        <mat-form-field color="primary">
+          <mat-label>Select due date</mat-label>
+          <input matInput [(ngModel)]="data.due_date" [matDatepicker]="picker1">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="flex-row">
+        <mat-label class="slider-label primary">Importance</mat-label>
+        <mat-slider
+          color="primary"
+          class="flex-row"
+          name="importance"
+          [(ngModel)]="data.importance"
+          thumbLabel
+          tickInterval="1"
+          min="1"
+          max="5"></mat-slider>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <div class="actions">
+      <button mat-button (click)="onNoClick()">Cancel</button>
+      <button mat-button color="primary" [mat-dialog-close]="data" [disabled]="!form.checkValidity()">Submit</button>
+    </div>
+  </div>
+</form>

@@ -23,12 +23,22 @@ import {UserEffects} from "./store/Effects/user.effects";
 import {HttpClientModule} from "@angular/common/http";
 import {MatCardModule} from "@angular/material/card";
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import {MatDialogModule} from "@angular/material/dialog";
+import { TaskDetailComponent } from './components/task-detail/task-detail.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
+import {MatSliderModule} from "@angular/material/slider";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    TaskListComponent
+    TaskListComponent,
+    TaskDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +47,7 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     HttpClientModule,
     StoreModule.forRoot({}, {}),
     EffectsModule.forRoot([UserEffects]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
@@ -51,7 +61,15 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     MatButtonModule,
     MatMenuModule,
     MatCardModule,
-    DragDropModule
+    DragDropModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSliderModule,
+    FormsModule
   ],
   providers: [
     {
