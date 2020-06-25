@@ -5,7 +5,7 @@ import {TaskDetailComponent} from '../task-detail/task-detail.component';
 import {Task} from '../../store/Entities/Task/task.model';
 import {doneTasks, inProgressTasks, State, toDoTasks} from '../../store';
 import {Store} from '@ngrx/store';
-import {addTask} from '../../store/Entities/Task/task.actions';
+import {addTask, updateTask} from '../../store/Entities/Task/task.actions';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -33,14 +33,14 @@ export class TaskListComponent implements OnInit {
   openDialog(task?: Task): void {
     const dialogRef = this.dialog.open(TaskDetailComponent, {
       width: '500px',
-      data: task
+      data: Object.assign({}, task)
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (!!result) {
         result.due_date = !!result.due_date ? new Date(result.due_date).getTime() : result.due_date;
         if (!!task) {
-
+          this.store.dispatch(updateTask({task: result}));
         } else {
           this.store.dispatch(addTask({task: result}));
         }

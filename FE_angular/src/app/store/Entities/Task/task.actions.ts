@@ -7,6 +7,11 @@ export const addTask = createAction(
   props<{ task: Task }>()
 );
 
+export const updateTask = createAction(
+  '[User/API] Update Task',
+  props<{ task: Task }>()
+);
+
 export const removeTask = createAction(
   '[User/API] Remove Task',
   props<{ task: Task }>()
