@@ -38,13 +38,13 @@ export class TaskListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (!!result) {
+        result.due_date = !!result.due_date ? new Date(result.due_date).getTime() : result.due_date;
         if (!!task) {
 
         } else {
           this.store.dispatch(addTask({task: result}));
         }
       }
-      // this.animal = result;
     });
   }
 

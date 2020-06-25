@@ -1,0 +1,20 @@
+<div class="task-box" cdkDrag>
+  <div class="flex-row w-100">
+    <div cdkDragHandle class="task-draggable-handle">
+      <mat-icon aria-hidden="false" aria-label="drag icon">drag_indicator</mat-icon>
+    </div>
+    <div class="content">
+      <div class="task-clickable">
+        <button mat-button (click)="showDetails.emit(true)">{{task.name}}</button>
+      </div>
+      <div class="content-right">
+        <mat-chip-list *ngIf="task.due_date">
+          <mat-chip color="accent" selected>{{task.due_date | date : 'shortDate'}}</mat-chip>
+        </mat-chip-list>
+        <button mat-mini-fab color="primary" aria-label="Example icon button with a bookmark icon">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
