@@ -21,3 +21,9 @@
   border-radius: 15px;
   margin-right: 10px;
 }
+
+.flex-row {
+  display: flex;
+  flex-wrap: wrap;
+  flex-grow: 1;
+}

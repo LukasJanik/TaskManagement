@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material/dialog';
 import {TaskDetailComponent} from '../task-detail/task-detail.component';
+import {Task} from '../../store/Entities/Task/task.model';
+import {doneTasks, inProgressTasks, State, toDoTasks} from '../../store';
+import {Store} from '@ngrx/store';
+import {addTask} from '../../store/Entities/Task/task.actions';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-task-list',
@@ -10,45 +15,40 @@ import {TaskDetailComponent} from '../task-detail/task-detail.component';
 })
 export class TaskListComponent implements OnInit {
 
-  todo = [
-    'Get to work',
-    'Pick up groceries',
-    'Go home',
-    'Fall asleep'
-  ];
+  todo$: Observable<Task[]>;
 
-  inProgress = [
-    'Get up',
-    'Brush teeth',
-    'Take a shower',
-    'Check e-mail',
-    'Walk dog'
-  ];
+  inProgress$: Observable<Task[]>;
 
-  done = [
-    'Get up',
-    'Brush teeth',
-    'Take a shower',
-    'Check e-mail',
-    'Walk dog'
-  ];
+  done$: Observable<Task[]>;
 
-  constructor(public dialog: MatDialog) {
+  constructor(
+    public dialog: MatDialog,
+    private store: Store<State>
+  ) {
+    this.todo$ = this.store.select(toDoTasks);
+    this.inProgress$ = this.store.select(inProgressTasks);
+    this.done$ = this.store.select(doneTasks);
   }
 
-  openDialog(): void {
+  openDialog(task?: Task): void {
     const dialogRef = this.dialog.open(TaskDetailComponent, {
       width: '500px',
-      // data: {name: this.name, animal: this.animal}
+      data: task
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      if (!!result) {
+        if (!!task) {
+
+        } else {
+          this.store.dispatch(addTask({task: result}));
+        }
+      }
       // this.animal = result;
     });
   }
 
-  drop(event: CdkDragDrop<string[]>) {
+  drop(event: CdkDragDrop<Task[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {

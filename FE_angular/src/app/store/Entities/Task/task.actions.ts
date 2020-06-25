@@ -7,8 +7,9 @@ export const addTask = createAction(
   props<{ task: Task }>()
 );
 
-export const RemoveTask = createAction(
+export const removeTask = createAction(
   '[User/API] Remove Task',
+  props<{ task: Task }>()
 );
 
 export const changeOrder = createAction(

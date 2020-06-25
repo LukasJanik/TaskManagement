@@ -7,6 +7,9 @@ export const environment = {
   host: () => {
     return 'http://localhost:8000';
   },
+  googleAPI: () => {
+    return '329968499656-ctmlqjdad69qkqkko2bqhqlifo7fcibl.apps.googleusercontent.com';
+  }
 };
 
 /*

@@ -4,17 +4,8 @@ export enum Status {
   done = 'done'
 }
 
-// export interface Task {
-//   id?: number;
-//   name: string;
-//   description?: string;
-//   due_date?: string;
-//   importance?: number;
-//   status: Status;
-// }
-
 export class Task {
-  id?: number;
+  id: number;
   name: string;
   description?: string;
   due_date?: number;
@@ -23,6 +14,7 @@ export class Task {
 
   constructor() {
     [this.name, this.description, this.due_date] = [null, null, null];
+    this.id = Date.now();
     this.importance = 1;
     this.status = Status.todo;
   }
