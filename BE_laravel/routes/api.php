@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 Use App\Http\Controllers\UserController;
+Use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,6 @@ Use App\Http\Controllers\UserController;
 //    });
 
 Route::put('users/{id}', 'UserController@upsert');
+Route::post('tasks/{id}', 'TaskController@addTask');
+Route::put('tasks/{id}', 'TaskController@updateTask');
+Route::get('tasks/{id}', 'TaskController@getTasks');

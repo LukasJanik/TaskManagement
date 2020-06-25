@@ -4,14 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-use Illuminate\Support\Facades\Log;
 use function GuzzleHttp\Promise\all;
 
 class UserController extends Controller
 {
     public function upsert(Request $request, $id)
     {
-//        $user = User::query()->where('google_id', '==', $id);
         $user = User::where('google_id', $id)->first();
 
         if (!get_object_vars($user)) {
