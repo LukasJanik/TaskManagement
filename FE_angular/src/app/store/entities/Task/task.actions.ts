@@ -1,6 +1,5 @@
 import {createAction, props} from '@ngrx/store';
-
-import {Status, Task} from './task.model';
+import {Task} from './task.model';
 
 export const loadTasks = createAction(
   '[Task/API] Load Tasks',
@@ -39,8 +38,8 @@ export const removedTask = createAction(
   '[Task/API] Removed Task',
 );
 
-export const changeOrder = createAction(
-  '[Task/API] Change order',
-  props<{ previousIndex: number, newIndex: number, typeStatus: Status, task: Task }>()
+export const dragTask = createAction(
+  '[Task/API] Drag Task',
+  props<{previousList: string, currentList: string, previousIndex: number, currentIndex: number}>()
 );
 

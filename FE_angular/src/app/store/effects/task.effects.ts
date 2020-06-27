@@ -46,7 +46,8 @@ export class TaskEffects {
       withLatestFrom(this.store),
       mergeMap(([action, store]) => {
         const user = store.users.currentUser;
-        return this.taskService.addTask(user, action.task)
+        const localTask = store.tasks.todo[store.tasks.todo.length - 1];
+        return this.taskService.addTask(user, localTask)
           .pipe(
             map(task => addedTask({localTask: action.task, remoteTask: task})),
             catchError(() => {

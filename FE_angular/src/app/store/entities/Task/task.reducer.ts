@@ -1,6 +1,7 @@
 import {createReducer, on} from '@ngrx/store';
 import {Status, Task} from './task.model';
 import * as TaskActions from './task.actions';
+import {moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 export const tasksFeatureKey = 'tasks';
 
@@ -25,8 +26,8 @@ export const reducer = createReducer(
   initialState,
   on(TaskActions.addTask,
     (state, action) => {
-      return Object.assign({}, {
-        todo: [...state.todo, Object.assign({}, action.task, {status: Status.todo})],
+    return Object.assign({}, {
+        todo: [...state.todo, Object.assign({}, action.task, {status: Status.todo, index: state.todo.length + 1})],
         in_progress: state.in_progress,
         done: state.done
       });
@@ -76,7 +77,29 @@ export const reducer = createReducer(
       action.tasks.forEach(task => {
         newState[task.status].push(task);
       });
+
+      Object.keys(newState).forEach(key => {
+        newState[key] = newState[key].sort((a, b) => a.index - b.index);
+      });
+
       return newState;
     }
   ),
+
+  on(TaskActions.dragTask,
+    (state, action) => {
+      const newState = Object.assign({}, state);
+      if (action.previousList === action.currentList) {
+        newState[action.currentList] = [...newState[action.currentList]];
+        moveItemInArray(newState[action.currentList], action.previousIndex, action.currentIndex);
+      } else {
+        newState[action.previousList] = [...newState[action.previousList]];
+        newState[action.currentList] = [...newState[action.currentList]];
+        transferArrayItem(newState[action.previousList],
+          newState[action.currentList],
+          action.previousIndex,
+          action.currentIndex);
+      }
+      return newState;
+    }),
 );

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {CdkDragDrop} from '@angular/cdk/drag-drop';
 import {MatDialog} from '@angular/material/dialog';
 import {TaskDetailComponent} from '../task-detail/task-detail.component';
 import {Task} from '../../store/Entities/Task/task.model';
 import {doneTasks, inProgressTasks, State, toDoTasks} from '../../store';
 import {Store} from '@ngrx/store';
-import {addTask, updateTask} from '../../store/Entities/Task/task.actions';
+import {addTask, dragTask, updateTask} from '../../store/Entities/Task/task.actions';
 import {Observable} from 'rxjs';
 
 @Component({
@@ -44,14 +44,22 @@ export class TaskListComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<Task[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
-    }
+    // console.log(event.container.id);
+    // if (event.previousContainer === event.container) {
+    //   moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    // } else {
+    //   transferArrayItem(event.previousContainer.data,
+    //     event.container.data,
+    //     event.previousIndex,
+    //     event.currentIndex);
+    // }
+    // this.store.dispatch(dragTask({event}));
+    this.store.dispatch(dragTask({
+      previousList: event.previousContainer.id,
+      currentList: event.container.id,
+      previousIndex: event.previousIndex,
+      currentIndex: event.currentIndex
+    }));
   }
 
   ngOnInit(): void {

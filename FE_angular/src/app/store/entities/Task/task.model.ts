@@ -11,6 +11,7 @@ export class Task {
   due_date?: number;
   importance?: number;
   status: Status;
+  index: number;
 
   constructor() {
     [this.name, this.description, this.due_date] = [null, null, null];
