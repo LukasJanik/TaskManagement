@@ -13,7 +13,7 @@ class TaskController extends Controller
     public function addTask(Request $request, $id)
     {
         $user = User::where('google_id', $id)->first();
-        if (get_object_vars($user)) {
+        if ($user != null) {
             $newTask = new Task();
             $data = $request->only($newTask->getFillable());
             $newTask->fill($data);
@@ -27,7 +27,7 @@ class TaskController extends Controller
     public function removeTask(Request $request, $id)
     {
         $task = Task::where('id', $id)->delete();
-        if (!get_object_vars($task)) {
+        if ($task == null) {
             return response()->json('Deleted', 200);
         }
         return response()->json('Task not found', 400);
@@ -36,7 +36,7 @@ class TaskController extends Controller
     public function updateTask(Request $request, $id)
     {
         $task = Task::where('id', $id)->first();
-        if (get_object_vars($task)) {
+        if ($task != null) {
             $data = $request->only($task->getFillable());
             $task->fill($data)->save();
             return response()->json($task->only($task->getFillable()), 200);
@@ -47,7 +47,7 @@ class TaskController extends Controller
     public function getTasks(Request $request, $id)
     {
         $user = User::where('google_id', $id)->first();
-        if (get_object_vars($user)) {
+        if ($user != null) {
             $tasks = $user -> tasks() -> get();
 
             $tmpTask = new Task();
