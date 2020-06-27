@@ -38,6 +38,18 @@ export class TaskService {
     );
   }
 
+  /** removes specific task
+   * @returns success/fail
+   */
+  public removeTask(task: Task): Observable<boolean> {
+    const finalPath = `${environment.host()}/api/tasks/${task.id}`;
+    return this.httpClient.delete(finalPath, {observe: 'response'}).pipe(
+      map(resp => {
+        return true;
+      })
+    );
+  }
+
   /** updates task
    * @returns user object
    */

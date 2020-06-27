@@ -4,7 +4,15 @@ import {catchError, map, mergeMap, withLatestFrom} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {setCurrentUser} from '../Entities/User/user.actions';
 import {TaskService} from '../../services/Task.service';
-import {addedTask, addTask, loadedTasks, loadTasks, updatedTask, updateTask} from '../Entities/Task/task.actions';
+import {
+  addedTask,
+  addTask,
+  loadedTasks,
+  loadTasks, removedTask,
+  removeTask,
+  updatedTask,
+  updateTask
+} from '../Entities/Task/task.actions';
 import {State} from '../index';
 import {Store} from '@ngrx/store';
 
@@ -54,6 +62,19 @@ export class TaskEffects {
       mergeMap((action) => this.taskService.updateTask(action.task)
         .pipe(
           map(() => updatedTask()),
+          catchError(() => {
+            return of(loadTasks);
+          }),
+        )
+      )
+    )
+  );
+
+  removeTask$ = createEffect(() => this.actions$
+    .pipe(ofType(removeTask),
+      mergeMap((action) => this.taskService.removeTask(action.task)
+        .pipe(
+          map(() => removedTask()),
           catchError(() => {
             return of(loadTasks);
           }),

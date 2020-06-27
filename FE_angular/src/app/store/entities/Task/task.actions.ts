@@ -35,6 +35,10 @@ export const removeTask = createAction(
   props<{ task: Task }>()
 );
 
+export const removedTask = createAction(
+  '[Task/API] Removed Task',
+);
+
 export const changeOrder = createAction(
   '[Task/API] Change order',
   props<{ previousIndex: number, newIndex: number, typeStatus: Status, task: Task }>()
