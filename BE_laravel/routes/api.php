@@ -21,6 +21,7 @@ Use App\Http\Controllers\TaskController;
 //    });
 
 Route::put('users/{id}', 'UserController@upsert');
-Route::post('tasks/{id}', 'TaskController@addTask');
-Route::put('tasks/{id}', 'TaskController@updateTask');
 Route::get('tasks/{id}', 'TaskController@getTasks');
+Route::post('tasks/{id}', 'TaskController@addTask');
+Route::delete('tasks/{id}', 'TaskController@removeTask');
+Route::put('tasks/{id}', 'TaskController@updateTask');

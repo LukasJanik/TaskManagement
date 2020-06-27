@@ -21,6 +21,16 @@ class TaskController extends Controller
             $user->tasks()->save($newTask);
             return response()->json($newTask->only($newTask->getFillable()), 200);
         }
+        return response()->json('User not found', 400);
+    }
+
+    public function removeTask(Request $request, $id)
+    {
+        $task = Task::where('id', $id)->delete();
+        if (!get_object_vars($task)) {
+            return response()->json('Deleted', 200);
+        }
+        return response()->json('Task not found', 400);
     }
 
     public function updateTask(Request $request, $id)
@@ -31,6 +41,7 @@ class TaskController extends Controller
             $task->fill($data)->save();
             return response()->json($task->only($task->getFillable()), 200);
         }
+        return response()->json('Task not found', 400);
     }
 
     public function getTasks(Request $request, $id)
@@ -45,5 +56,6 @@ class TaskController extends Controller
 
             return response()->json($tasks, 200);
         }
+        return response()->json('User not found', 400);
     }
 }
