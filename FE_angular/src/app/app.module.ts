@@ -37,6 +37,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
 import {registerLocaleData} from '@angular/common';
 import localeGB from '@angular/common/locales/en-GB';
+import {TaskEffects} from './store/Effects/task.effects';
 
 registerLocaleData(localeGB, 'en-GB');
 
@@ -54,7 +55,7 @@ registerLocaleData(localeGB, 'en-GB');
     BrowserAnimationsModule,
     HttpClientModule,
     StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([UserEffects]),
+    EffectsModule.forRoot([UserEffects, TaskEffects]),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     StoreModule.forRoot(reducers, {
       metaReducers,

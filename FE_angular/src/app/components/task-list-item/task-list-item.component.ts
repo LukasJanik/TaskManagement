@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Task} from '../../store/Entities/Task/task.model';
 import {State} from '../../store';
 import {Store} from '@ngrx/store';
+import {removeTask} from '../../store/Entities/Task/task.actions';
 
 @Component({
   selector: 'app-task-list-item',
@@ -21,7 +22,7 @@ export class TaskListItemComponent implements OnInit {
   }
 
   delete(): void {
-
+    this.store.dispatch(removeTask({task: this.task}));
   }
 
 }

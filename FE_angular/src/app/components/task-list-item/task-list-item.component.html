@@ -11,7 +11,7 @@
         <mat-chip-list *ngIf="task.due_date">
           <mat-chip color="accent" selected>{{task.due_date | date : 'shortDate'}}</mat-chip>
         </mat-chip-list>
-        <button mat-mini-fab color="primary" aria-label="Example icon button with a bookmark icon">
+        <button mat-mini-fab color="primary" (click)="delete()">
           <mat-icon>delete</mat-icon>
         </button>
       </div>

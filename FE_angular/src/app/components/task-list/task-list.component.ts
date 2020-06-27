@@ -16,9 +16,7 @@ import {Observable} from 'rxjs';
 export class TaskListComponent implements OnInit {
 
   todo$: Observable<Task[]>;
-
   inProgress$: Observable<Task[]>;
-
   done$: Observable<Task[]>;
 
   constructor(
@@ -33,17 +31,14 @@ export class TaskListComponent implements OnInit {
   openDialog(task?: Task): void {
     const dialogRef = this.dialog.open(TaskDetailComponent, {
       width: '500px',
-      data: Object.assign({}, task)
+      data: !!task ? Object.assign({}, task, {due_date: !!task.due_date ? new Date(task.due_date) : null}) : null
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (!!result) {
         result.due_date = !!result.due_date ? new Date(result.due_date).getTime() : result.due_date;
-        if (!!task) {
-          this.store.dispatch(updateTask({task: result}));
-        } else {
-          this.store.dispatch(addTask({task: result}));
-        }
+        const prop = {task: result};
+        this.store.dispatch(!!task ? updateTask(prop) : addTask(prop));
       }
     });
   }

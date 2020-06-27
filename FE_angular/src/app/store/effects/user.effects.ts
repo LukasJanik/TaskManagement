@@ -2,10 +2,10 @@ import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, map, mergeMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {getCurrentUser, logIn, logOut, setCurrentUser} from "../Entities/User/user.actions";
-import {CookieService} from "ngx-cookie-service";
-import {userIdCookies} from "../../definitions";
-import {UserService} from "../../services/User.service";
+import {getCurrentUser, logIn, logOut, setCurrentUser} from '../Entities/User/user.actions';
+import {CookieService} from 'ngx-cookie-service';
+import {userIdCookies} from '../../definitions';
+import {UserService} from '../../services/User.service';
 
 @Injectable()
 export class UserEffects {
@@ -27,7 +27,7 @@ export class UserEffects {
 
   logOut$ = createEffect(() => this.actions$
     .pipe(ofType(logOut),
-      mergeMap(action => {
+      mergeMap(() => {
         this.cookieService.delete(userIdCookies);
         return of({type: 'Logged out'});
       })
@@ -38,7 +38,7 @@ export class UserEffects {
     .pipe(ofType(getCurrentUser),
       mergeMap((action) => this.userService.getCurrentUser(action.user)
         .pipe(
-          map(user => setCurrentUser({user: user})),
+          map(user => setCurrentUser({user})),
           catchError(() => {
             return of({type: 'Unable to load current user'});
           }),
