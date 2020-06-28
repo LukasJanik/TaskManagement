@@ -26,8 +26,8 @@ export const reducer = createReducer(
   initialState,
   on(TaskActions.addTask,
     (state, action) => {
-    return Object.assign({}, {
-        todo: [...state.todo, Object.assign({}, action.task, {status: Status.todo, index: state.todo.length + 1})],
+      return Object.assign({}, {
+        todo: [...state.todo, Object.assign({}, action.task, {status: Status.todo, index: state.todo.length})],
         in_progress: state.in_progress,
         done: state.done
       });
@@ -100,6 +100,24 @@ export const reducer = createReducer(
           action.previousIndex,
           action.currentIndex);
       }
+      return newState;
+    }),
+
+  on(TaskActions.updatedTasks,
+    (state, action) => {
+      const newState = Object.assign({}, {
+        todo: [...state.todo],
+        in_progress: [...state.in_progress],
+        done: [...state.done]
+      });
+
+      action.tasks.forEach(task => {
+        newState[task.status][task.index] = Object.assign({}, newState[task.status][task.index], {
+          status: task.status,
+          index: task.index
+        });
+      });
+
       return newState;
     }),
 );

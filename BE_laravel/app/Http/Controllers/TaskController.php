@@ -44,6 +44,22 @@ class TaskController extends Controller
         return response()->json('Task not found', 400);
     }
 
+
+    public function updateTasks(Request $request)
+    {
+        $requestedTasks = $request->toArray();
+        foreach ($requestedTasks as $requestedTask)
+        {
+            $task = Task::find($requestedTask['id']);
+            if ($task != null)
+            {
+                $data = collect($requestedTask)->only(Task::getFillableInArray())->all();
+                $task->fill($data)->save();
+            }
+        }
+        return response()->json($requestedTasks, 200);
+    }
+
     public function getTasks(Request $request, $id)
     {
         $user = User::where('google_id', $id)->first();

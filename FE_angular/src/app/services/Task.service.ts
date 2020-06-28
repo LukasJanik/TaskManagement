@@ -62,4 +62,17 @@ export class TaskService {
       })
     );
   }
+
+  /** updates tasks after dragging
+   * @returns user object
+   */
+  public updateTasks(tasks: Task[]): Observable<Task[]> {
+    const finalPath = `${environment.host()}/api/tasks`;
+    return this.httpClient.put(finalPath, tasks, {observe: 'response'}).pipe(
+      map(resp => {
+        const updatedTasks = resp.body as Task[];
+        return updatedTasks;
+      })
+    );
+  }
 }

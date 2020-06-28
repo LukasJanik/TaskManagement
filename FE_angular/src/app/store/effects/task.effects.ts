@@ -6,11 +6,11 @@ import {setCurrentUser} from '../Entities/User/user.actions';
 import {TaskService} from '../../services/Task.service';
 import {
   addedTask,
-  addTask,
+  addTask, dragTask,
   loadedTasks,
   loadTasks, removedTask,
   removeTask,
-  updatedTask,
+  updatedTask, updatedTasks,
   updateTask
 } from '../Entities/Task/task.actions';
 import {State} from '../index';
@@ -67,6 +67,39 @@ export class TaskEffects {
             return of(loadTasks);
           }),
         )
+      )
+    )
+  );
+
+  updateTasks$ = createEffect(() => this.actions$
+    .pipe(ofType(dragTask),
+      withLatestFrom(this.store),
+      mergeMap(([action, store]) => {
+          const listsToCheck = action.previousList === action.currentList ?
+            [action.currentList] : [action.currentList, action.previousList];
+          const tasksToUpdate = [];
+          const lists = store.tasks;
+
+          listsToCheck.forEach(listType => {
+            const list = lists[listType];
+            for (let i = 0; i < list.length; i++) {
+              if (list[i].index !== i || list[i].status !== listType) {
+                const toUpdate = Object.assign({}, list[i]);
+                toUpdate.status = listType;
+                toUpdate.index = i;
+                tasksToUpdate.push(toUpdate);
+              }
+            }
+          });
+
+          return this.taskService.updateTasks(tasksToUpdate)
+            .pipe(
+              map((tasks) => updatedTasks({tasks})),
+              catchError(() => {
+                return of(loadTasks);
+              }),
+            );
+        }
       )
     )
   );

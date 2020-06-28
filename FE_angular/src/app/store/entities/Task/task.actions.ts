@@ -29,6 +29,11 @@ export const updatedTask = createAction(
   '[Task/API] Updated Task',
 );
 
+export const updatedTasks = createAction(
+  '[Task/API] Updated Tasks',
+  props<{ tasks: Task[] }>()
+);
+
 export const removeTask = createAction(
   '[Task/API] Remove Task',
   props<{ task: Task }>()
@@ -40,6 +45,6 @@ export const removedTask = createAction(
 
 export const dragTask = createAction(
   '[Task/API] Drag Task',
-  props<{previousList: string, currentList: string, previousIndex: number, currentIndex: number}>()
+  props<{ previousList: string, currentList: string, previousIndex: number, currentIndex: number }>()
 );
 

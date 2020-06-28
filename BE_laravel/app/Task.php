@@ -31,6 +31,11 @@ class Task extends Model
      * @var array
      */
 
+    public static function  getFillableInArray()
+    {
+        return ['status', 'index'];
+    }
+
 
     public function user()
     {
