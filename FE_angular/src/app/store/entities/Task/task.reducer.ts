@@ -9,12 +9,16 @@ export interface State {
   todo: Task[];
   in_progress: Task[];
   done: Task[];
+  searchTasks: Task[];
+  offset: number;
 }
 
 export const initialState: State = {
   todo: [],
   in_progress: [],
-  done: []
+  done: [],
+  searchTasks: [],
+  offset: 0,
 };
 
 function updateTaskList(taskList: Task[], updatedTask: Task, targetId?: number): Task[] {
@@ -83,6 +87,13 @@ export const reducer = createReducer(
       });
 
       return newState;
+    }
+  ),
+
+  on(TaskActions.loadedSearchTasks,
+    (state, action) => {
+      // @ts-ignore
+      return Object.assign({}, state, {searchTasks: [...state.searchTasks, ...action.tasks]});
     }
   ),
 

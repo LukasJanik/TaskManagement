@@ -1,42 +1,56 @@
 import {Injectable} from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {catchError, map, mergeMap, withLatestFrom} from 'rxjs/operators';
-import {of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {setCurrentUser} from '../Entities/User/user.actions';
-import {TaskService} from '../../services/Task.service';
+import {TaskService} from '../../services/task.service';
 import {
   addedTask,
-  addTask, dragTask,
-  loadedTasks,
+  addTask, dragTask, loadedSearchTasks,
+  loadedTasks, loadSearchTasks,
   loadTasks, removedTask,
   removeTask,
   updatedTask, updatedTasks,
   updateTask
 } from '../Entities/Task/task.actions';
 import {State} from '../index';
-import {Store} from '@ngrx/store';
+import {Action, Store} from '@ngrx/store';
+import {Router} from '@angular/router';
+import {User} from '../entities/User/user.model';
 
 @Injectable()
 export class TaskEffects {
   constructor(
     private actions$: Actions,
     private taskService: TaskService,
-    private store: Store<State>
+    private store: Store<State>,
+    private router: Router
   ) {
   }
 
+  // loadTasks$ = createEffect(() => this.actions$
+  //   .pipe(ofType(setCurrentUser, loadTasks, loadSearchTasks),
+  //     withLatestFrom(this.store),
+  //     mergeMap(([action, store]) => {
+  //       const user = store.users.currentUser;
+  //       // console.log(this.router.url);
+  //       return this.taskService.getUserTasks(user)
+  //         .pipe(
+  //           map(tasks => loadedTasks({tasks})),
+  //           catchError(() => {
+  //             return of({type: 'Unable to load current user\'s tasks'});
+  //           }),
+  //         );
+  //     })
+  //   )
+  // );
+
   loadTasks$ = createEffect(() => this.actions$
-    .pipe(ofType(setCurrentUser, loadTasks),
+    .pipe(ofType(setCurrentUser, loadTasks, loadSearchTasks),
       withLatestFrom(this.store),
       mergeMap(([action, store]) => {
         const user = store.users.currentUser;
-        return this.taskService.getUserTasks(user)
-          .pipe(
-            map(tasks => loadedTasks({tasks})),
-            catchError(() => {
-              return of({type: 'Unable to load current user\'s tasks'});
-            }),
-          );
+        return this.handleTaskLoading(user, action, store.tasks.offset);
       })
     )
   );
@@ -116,4 +130,24 @@ export class TaskEffects {
       )
     )
   );
+
+  private handleTaskLoading(user: User, action: any, offset: number): Observable<Action> {
+    if (this.router.url.includes('tasks')) {
+      return this.taskService.getUserTasks(user)
+        .pipe(
+          map(tasks => loadedTasks({tasks})),
+          catchError(() => {
+            return of({type: 'Unable to load current user\'s tasks'});
+          }),
+        );
+    } else {
+      return this.taskService.searchUserTasks(user, offset, action.expression)
+        .pipe(
+          map(tasks => loadedSearchTasks({tasks})),
+          catchError(() => {
+            return of({type: 'Unable to load current user\'s tasks'});
+          }),
+        );
+    }
+  }
 }

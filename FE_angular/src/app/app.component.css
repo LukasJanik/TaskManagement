@@ -4,6 +4,11 @@
   justify-content: space-between;
 }
 
+/*.toolbar-menu {*/
+/*  display: inline-flex;*/
+/*  border-right: 1px solid whitesmoke;*/
+/*}*/
+
 .w-100 {
   width: 100%;
 }
@@ -26,4 +31,11 @@
   display: flex;
   flex-wrap: wrap;
   flex-grow: 1;
+}
+
+h1 {
+  width: fit-content;
+  display: block;
+  margin: 20px auto 0 auto;
+  font-size: xx-large;
 }

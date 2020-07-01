@@ -1,0 +1,21 @@
+.task-search-container {
+  margin: 80px;
+}
+
+.mat-form-field {
+  width: 30%;
+  margin-right: 16px;
+}
+
+.search-bar {
+  display: inline-flex;
+  width: 100%;
+}
+
+.search-button {
+  padding: 4px 0 22px 0;
+}
+
+.search-button button {
+  height: 100%;
+}

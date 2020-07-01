@@ -38,6 +38,9 @@ import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
 import {registerLocaleData} from '@angular/common';
 import localeGB from '@angular/common/locales/en-GB';
 import {TaskEffects} from './store/Effects/task.effects';
+import {TaskSearchComponent} from './components/task-search/task-search.component';
+import {RouterModule} from '@angular/router';
+import { TaskBaseComponent } from './components/task-base/task-base.component';
 
 registerLocaleData(localeGB, 'en-GB');
 
@@ -48,6 +51,8 @@ registerLocaleData(localeGB, 'en-GB');
     TaskListComponent,
     TaskDetailComponent,
     TaskListItemComponent,
+    TaskSearchComponent,
+    TaskBaseComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,7 +85,8 @@ registerLocaleData(localeGB, 'en-GB');
     MatSliderModule,
     FormsModule,
     MatIconModule,
-    MatChipsModule
+    MatChipsModule,
+    RouterModule,
   ],
   providers: [
     {

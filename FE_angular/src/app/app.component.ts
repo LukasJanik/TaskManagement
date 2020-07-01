@@ -4,7 +4,7 @@ import {User} from './store/Entities/User/user.model';
 import {Observable} from 'rxjs';
 import {currentUser, State} from './store';
 import {Store} from '@ngrx/store';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {logOut} from './store/Entities/User/user.actions';
 
 @Component({
@@ -20,9 +20,9 @@ export class AppComponent {
   constructor(
     private authService: SocialAuthService,
     private router: Router,
+    private route: ActivatedRoute,
     private store: Store<State>) {
     this.user$ = this.store.select(currentUser);
-    this.router.navigate(['tasks']);
   }
 
   signOut(): void {
@@ -30,5 +30,4 @@ export class AppComponent {
     this.store.dispatch(logOut());
     this.router.navigate(['/login']);
   }
-
 }

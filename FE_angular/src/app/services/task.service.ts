@@ -25,6 +25,18 @@ export class TaskService {
     );
   }
 
+  public searchUserTasks(user: User, offset: number, expression?: string): Observable<Task[]> {
+    const finalPath = `${environment.host()}/api/tasks/search/${user.google_id}/${offset}${!!expression ? `/${expression}` : ''}`;
+    return this.httpClient.get(finalPath, {observe: 'response'}).pipe(
+      map(resp => {
+        const tasks = resp.body as Task [];
+        return tasks;
+      })
+    );
+  }
+
+
+
   /** adds new task
    * @returns new task
    */

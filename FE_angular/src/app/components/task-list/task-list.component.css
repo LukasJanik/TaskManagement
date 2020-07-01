@@ -1,10 +1,3 @@
-h1 {
-  width: fit-content;
-  display: block;
-  margin: 20px auto 0 auto;
-  font-size: xx-large;
-}
-
 .task-list-container {
   display: flex;
   flex-wrap: wrap;

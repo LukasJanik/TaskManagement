@@ -10,6 +10,16 @@ export const loadedTasks = createAction(
   props<{ tasks: Task[] }>()
 );
 
+export const loadSearchTasks = createAction(
+  '[Task/API] Load Search Tasks',
+  props<{ expression?: string }>()
+);
+
+export const loadedSearchTasks = createAction(
+  '[Task/API] Loaded Search Tasks',
+  props<{ tasks: Task[] }>()
+);
+
 export const addTask = createAction(
   '[Task/API] Add Task',
   props<{ task: Task }>()

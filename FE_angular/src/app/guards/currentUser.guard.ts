@@ -3,12 +3,11 @@ import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Route
 import {Observable, of} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
-import {currentUser, State} from "../store";
-import {CookieService} from "ngx-cookie-service";
-import {userIdCookies} from "../definitions";
-import {getCurrentUser} from "../store/Entities/User/user.actions";
-import {User} from "../store/Entities/User/user.model";
-
+import {currentUser, State} from '../store';
+import {CookieService} from 'ngx-cookie-service';
+import {userIdCookies} from '../definitions';
+import {getCurrentUser} from '../store/Entities/User/user.actions';
+import {User} from '../store/Entities/User/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -50,5 +49,4 @@ export class CurrentUserGuard implements CanActivate {
       take(1),
     );
   }
-
 }

@@ -5,7 +5,7 @@ import {of} from 'rxjs';
 import {getCurrentUser, logIn, logOut, setCurrentUser} from '../Entities/User/user.actions';
 import {CookieService} from 'ngx-cookie-service';
 import {userIdCookies} from '../../definitions';
-import {UserService} from '../../services/User.service';
+import {UserService} from '../../services/user.service';
 
 @Injectable()
 export class UserEffects {

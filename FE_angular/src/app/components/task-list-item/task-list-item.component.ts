@@ -11,6 +11,7 @@ import {removeTask} from '../../store/Entities/Task/task.actions';
 })
 export class TaskListItemComponent implements OnInit {
   @Input() task: Task = null;
+  @Input() usedInSearch: boolean;
   @Output() showDetails: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
@@ -19,6 +20,7 @@ export class TaskListItemComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.task);
   }
 
   delete(): void {

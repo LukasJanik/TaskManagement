@@ -1,6 +1,6 @@
 <div class="task-box" cdkDrag>
   <div class="flex-row w-100">
-    <div cdkDragHandle class="task-draggable-handle">
+    <div cdkDragHandle class="task-draggable-handle" *ngIf="!usedInSearch">
       <mat-icon aria-hidden="false" aria-label="drag icon">drag_indicator</mat-icon>
     </div>
     <div class="content">
