@@ -1,22 +1,6 @@
 <mat-toolbar color="primary" class="toolbar mat-elevation-z3">
   <div>
-    Task list sample app
-  </div>
-  <div>
-    <ng-container *ngIf="user$ | async; let user;">
-<!--      <div class="toolbar-menu">-->
-<!--        <button mat-button>Search tasks</button>-->
-<!--      </div>-->
-      <button mat-button [matMenuTriggerFor]="menu">
-        <img class="avatar mat-elevation-z3" [src]="user.photo_url">
-        {{user.name}}
-      </button>
-      <mat-menu #menu="matMenu" xPosition="before">
-        <button mat-menu-item routerLink="tasks">Tasks board</button>
-        <button mat-menu-item routerLink="search">Search tasks</button>
-        <button mat-menu-item (click)="signOut()">Log out</button>
-      </mat-menu>
-    </ng-container>
+    Kanban Board
   </div>
 </mat-toolbar>
 <router-outlet></router-outlet>

@@ -125,6 +125,7 @@
   },
   "defaultProject": "todo-list",
   "cli": {
-    "defaultCollection": "@ngrx/schematics"
+    "defaultCollection": "@ngrx/schematics",
+    "analytics": "d61d99ec-55fe-495d-bacf-708362c1f914"
   }
 }
