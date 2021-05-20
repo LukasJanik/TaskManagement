@@ -1,0 +1,13 @@
+<div class="board-list-wrapper">
+  <div class="board-list">
+    <div class="w-100 flex-row">
+      <button mat-raised-button color="primary" class="add-board-button" (click)="addBoard()">Add board</button>
+    </div>
+    <div *ngFor="let board of (boards$ | async)" class="board mat-elevation-z5" [routerLink]="['./' + board.id]">
+      <button class="remove-button" mat-icon-button color="primary" (click)="removeBoard($event, board.id)">
+        <mat-icon>remove</mat-icon>
+      </button>
+      <div class="text-align-center"><span>{{board.name}}</span></div>
+    </div>
+  </div>
+</div>

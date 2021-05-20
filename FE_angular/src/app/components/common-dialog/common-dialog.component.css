@@ -1,0 +1,25 @@
+.mat-form-field {
+  width: 100%;
+}
+
+.flex-row mat-slider {
+  margin-top: 2px;
+}
+
+.mr {
+  margin-right: 10px;
+}
+
+.slider-label {
+  margin: auto 10px auto 0;
+  padding-bottom: 2px;
+}
+
+.actions {
+  display: block;
+  margin-left: auto;
+}
+
+.dialog-heading {
+  margin: 10px auto 20px 0;
+}

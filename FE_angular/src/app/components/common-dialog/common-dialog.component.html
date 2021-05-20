@@ -1,0 +1,20 @@
+<form #form>
+  <div>
+    <h1 mat-dialog-title class="primary dialog-heading">{{data.title}}</h1>
+  </div>
+  <div mat-dialog-content>
+    <mat-form-field appearance="outline" *ngIf="data.showInput;else description">
+      <mat-label>{{data.label}}</mat-label>
+      <input matInput name="name" [(ngModel)]="name" required>
+    </mat-form-field>
+    <div #description>
+      {{data.description}}
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <div class="actions">
+      <button mat-button (click)="onNoClick()">Cancel</button>
+      <button mat-button color="primary" [mat-dialog-close]="result" [disabled]="!form.checkValidity()">Submit</button>
+    </div>
+  </div>
+</form>
