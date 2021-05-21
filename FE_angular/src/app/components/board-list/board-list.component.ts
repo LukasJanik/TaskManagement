@@ -2,14 +2,13 @@ import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Board } from '../../store/entities/entities';
 import { Store } from '@ngrx/store';
-import { boards, State } from '../../store';
+import { selectBoards, State } from '../../store';
 import { MatDialog } from '@angular/material/dialog';
 import { ComponentType } from '@angular/cdk/overlay';
 import { CommonDialogComponent } from '../common-dialog/common-dialog.component';
 import { dialogData } from '../../definitions/constants';
 import { CommonDialogData, dialogTypes } from '../../definitions/types';
-import { addBoard, removeBoard } from '../../store/entities/Board/board.actions';
-import { Router } from '@angular/router';
+import { addBoard, removeBoard, setCurrentBoard } from '../../store/entities/Board/board.actions';
 
 @Component({
   selector: 'app-board-list',
@@ -20,11 +19,11 @@ export class BoardListComponent implements OnInit, OnDestroy {
 
   boards$: Observable<Board[]>;
 
-  constructor(private store: Store<State>, private dialog: MatDialog, private router: Router) {
+  constructor(private store: Store<State>, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
-    this.boards$ = this.store.select(boards);
+    this.boards$ = this.store.select(selectBoards);
   }
 
   addBoard(): void {
@@ -38,6 +37,10 @@ export class BoardListComponent implements OnInit, OnDestroy {
     this.openDialog(this.dialog, CommonDialogComponent, dialogData[dialogTypes.deleteBoard]).then(() => {
       this.store.dispatch(removeBoard({id}));
     });
+  }
+
+  setCurrentBoard(id: number): void {
+    this.store.dispatch(setCurrentBoard({id}));
   }
 
   ngOnDestroy(): void {

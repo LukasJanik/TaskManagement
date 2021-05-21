@@ -1,34 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Actions } from '@ngrx/effects';
+import { Actions, createEffect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { State } from '../index';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
+import { DataService } from '../../services/data.service';
+import { loadedBoards } from '../entities/Board/board.actions';
 
 @Injectable()
-export class TaskEffects {
+export class BoardEffects {
   constructor(
     private actions$: Actions,
     private store: Store<State>,
-    private router: Router
+    private dataService: DataService,
   ) {
   }
 
-  // loadTasks$ = createEffect(() => this.actions$
-  //   .pipe(ofType(setCurrentUser, loadTasks, loadSearchTasks),
-  //     withLatestFrom(this.store),
-  //     mergeMap(([action, store]) => {
-  //       const user = store.users.currentUser;
-  //       // console.log(this.router.url);
-  //       return this.taskService.getUserTasks(user)
-  //         .pipe(
-  //           map(tasks => loadedTasks({tasks})),
-  //           catchError(() => {
-  //             return of({type: 'Unable to load current user\'s tasks'});
-  //           }),
-  //         );
-  //     })
-  //   )
-  // );
+
+  loadTasks$ = createEffect(() => this.actions$
+    .pipe(ofType(ROOT_EFFECTS_INIT),
+      map(() => {
+        const boards = this.dataService.getBoardData();
+        return loadedBoards({boards});
+      })
+    )
+  );
 
   // loadTasks$ = createEffect(() => this.actions$
   //   .pipe(ofType(setCurrentUser, loadTasks, loadSearchTasks),

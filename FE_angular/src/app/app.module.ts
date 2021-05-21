@@ -15,7 +15,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import {
   SocialLoginModule
 } from 'angularx-social-login';
-import { TaskListComponent } from './components/task-list/task-list.component';
+import { ListsListComponent } from './components/lists-list/lists-list.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -33,11 +33,12 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { registerLocaleData } from '@angular/common';
 import localeGB from '@angular/common/locales/en-GB';
-import { TaskEffects } from './store/Effects/task.effects';
+import { BoardEffects } from './store/Effects/board.effects';
 import { TaskSearchComponent } from './components/task-search/task-search.component';
 import { RouterModule } from '@angular/router';
 import { TaskBaseComponent } from './components/task-base/task-base.component';
 import { CommonDialogComponent } from './components/common-dialog/common-dialog.component';
+import { DataService } from './services/data.service';
 
 registerLocaleData(localeGB, 'en-GB');
 
@@ -45,7 +46,7 @@ registerLocaleData(localeGB, 'en-GB');
   declarations: [
     AppComponent,
     BoardListComponent,
-    TaskListComponent,
+    ListsListComponent,
     TaskDetailComponent,
     TaskListItemComponent,
     TaskSearchComponent,
@@ -58,7 +59,7 @@ registerLocaleData(localeGB, 'en-GB');
     BrowserAnimationsModule,
     HttpClientModule,
     StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([TaskEffects]),
+    EffectsModule.forRoot([BoardEffects]),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     StoreModule.forRoot(reducers, {
       metaReducers,
@@ -88,7 +89,8 @@ registerLocaleData(localeGB, 'en-GB');
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
-    {provide: LOCALE_ID, useValue: 'en-GB'}
+    {provide: LOCALE_ID, useValue: 'en-GB'},
+    DataService
   ],
   bootstrap: [AppComponent]
 })

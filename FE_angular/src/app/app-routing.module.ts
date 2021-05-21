@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BoardListComponent } from './components/board-list/board-list.component';
-import { TaskListComponent } from './components/task-list/task-list.component';
+import { ListsListComponent } from './components/lists-list/lists-list.component';
 import { TaskSearchComponent } from './components/task-search/task-search.component';
 
 
@@ -13,10 +13,10 @@ const routes: Routes = [
     path: 'boards', component: BoardListComponent,
   },
   {
-    path: 'boards/:id', component: TaskListComponent,
+    path: 'boards/:id', component: ListsListComponent,
   },
   {
-    path: 'tasks', component: TaskListComponent,
+    path: 'tasks', component: ListsListComponent,
   },
   {
     path: 'search', component: TaskSearchComponent,
