@@ -7,6 +7,9 @@ module.exports = {
         const {boardId} = getNumberParams(req.params, ['boardId'])
         const targetBoard = data['boards'].find(board => board.id === boardId);
         const newTaskList = {id: Date.now(), name, items: []}
+        if (!targetBoard.lists) {
+            targetBoard.lists = [];
+        }
         targetBoard.lists.push(newTaskList);
 
         if (writeBoardsData(data)) {
