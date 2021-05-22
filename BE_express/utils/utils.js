@@ -15,3 +15,11 @@ exports.writeBoardsData = (data) => {
         return false;
     }
 }
+
+exports.getNumberParams = (params, keys) => {
+    const paramsKeys = Object.keys(params);
+    return keys.reduce((numberParams, key) => {
+        numberParams[key] = paramsKeys.includes(key) ? Number(params[key]) : null;
+        return numberParams;
+    }, {})
+}

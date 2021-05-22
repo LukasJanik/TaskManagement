@@ -1,12 +1,13 @@
-const {getBoardsData, writeBoardsData} = require('../utils/utils')
+const {getBoardsData, writeBoardsData, getNumberParams} = require('../utils/utils')
 
 module.exports = {
-    createTaskLists: (req, res) => {
+    createTaskList: (req, res) => {
         const data = getBoardsData();
-        const {boardId, name} = req.body;
+        const {name} = req.body;
+        const {boardId} = getNumberParams(req.params, ['boardId'])
         const targetBoard = data['boards'].find(board => board.id === boardId);
-        const newTaskList = {id: Date.now(), name, list: []}
-        targetBoard.push(newTaskList);
+        const newTaskList = {id: Date.now(), name, items: []}
+        targetBoard.lists.push(newTaskList);
 
         if (writeBoardsData(data)) {
             res.send(newTaskList);
@@ -16,34 +17,36 @@ module.exports = {
     },
     updateTaskLists: (req, res) => {
         const data = getBoardsData();
-        const {boardId, lists} = req.body;
+        const {lists} = req.body;
+        const {boardId} = getNumberParams(req.params, ['boardId']);
         const targetBoard = data['boards'].find(board => board.id === boardId);
 
         lists.forEach(list => {
-            const index = targetBoard.list.find(locList => locList.id === list.id);
-            targetBoard.list[index] = list;
+            const index = targetBoard.lists.findIndex(locList => locList.id === list.id);
+            targetBoard.lists[index] = list;
         })
 
         if (writeBoardsData(data)) {
-            res.send(newTaskList);
+            res.sendStatus(200);
         } else {
             res.sendStatus(500);
         }
     },
-    deleteTaskLists: (req, res) => {
+    deleteTaskList: (req, res) => {
         const data = getBoardsData();
-        const {boardId, listId} = req.body;
+        const {boardId, taskListId} = getNumberParams(req.params, ['boardId', 'taskListId']);
 
-        if (!boardId || !listId) {
-            req.sendStatus(405);
+        if (!boardId || !taskListId) {
+            res.sendStatus(405);
+            return;
         }
 
         const targetBoard = data['boards'].find(board => board.id === boardId);
 
         let deleted = false;
 
-        targetBoard.list = targetBoard.list.filter((list) => {
-            if (list.id === listId) {
+        targetBoard.lists = targetBoard.lists.filter((list) => {
+            if (list.id === taskListId) {
                 deleted = true;
                 return false;
             }

@@ -14,6 +14,7 @@ module.exports = {
             res.send(newBoard);
         } else {
             res.sendStatus(405);
+            return;
         }
 
         if (writeBoardsData(data)) {
