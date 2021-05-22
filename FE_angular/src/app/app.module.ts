@@ -26,7 +26,7 @@ import { FormsModule } from '@angular/forms';
 import { TaskListItemComponent } from './components/task-list-item/task-list-item.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
-import { BoardEffects } from './store/Effects/board.effects';
+import { BoardEffects } from './store/effects/board.effects';
 import { RouterModule } from '@angular/router';
 import { CommonDialogComponent } from './components/common-dialog/common-dialog.component';
 import { BoardService } from './services/board.service';
