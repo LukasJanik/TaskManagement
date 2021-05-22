@@ -1,4 +1,9 @@
-const {getBoardsData, writeBoardsData, getNumberParams} = require('../utils/utils')
+const {getBoardsData, writeBoardsData, getNumberParams, handleDelete} = require('../utils/utils')
+
+const findTargetList = (data, boardId, taskListId) => {
+    const targetBoard = data['boards'].find(board => board.id === boardId);
+    return targetBoard.lists.find((list) => list.id === taskListId);
+}
 
 module.exports = {
     createTask: (req, res) => {
@@ -10,9 +15,7 @@ module.exports = {
             return;
         }
 
-        const targetBoard = data['boards'].find(board => board.id === boardId);
-        const targetList = targetBoard.lists.find((list) => list.id === taskListId);
-        console.log(targetList);
+        const targetList = findTargetList(data, boardId, taskListId);
         const newTask = {id: Date.now(), name}
         targetList.items.push(newTask)
 
@@ -30,26 +33,17 @@ module.exports = {
             return;
         }
 
-        const targetBoard = data['boards'].find(board => board.id === boardId);
-        const targetList = targetBoard.lists.find((list) => list.id === taskListId);
+        const targetList = findTargetList(data, boardId, taskListId);
 
-        let deleted = false;
-        targetList.items = targetList.items.filter((task) => {
-            if (task.id === taskId) {
-                deleted = true;
-                return false;
-            }
-            return true;
+        handleDelete(res, data, (deleted) => {
+            targetList.items = targetList.items.filter((task) => {
+                if (task.id === taskId) {
+                    deleted = true;
+                    return false;
+                }
+                return true;
+            });
+            return deleted;
         });
-
-        if (deleted) {
-            if (writeBoardsData(data)) {
-                res.sendStatus(200);
-            } else {
-                res.sendStatus(500);
-            }
-        } else {
-            res.sendStatus(404);
-        }
     }
 }

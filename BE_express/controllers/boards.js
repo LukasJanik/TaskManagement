@@ -1,4 +1,4 @@
-const {getBoardsData, writeBoardsData} = require('../utils/utils')
+const {getBoardsData, writeBoardsData, getNumberParams, handleDelete} = require('../utils/utils')
 
 module.exports = {
     getBoards: (req, res) => {
@@ -8,8 +8,8 @@ module.exports = {
     createBoard: (req, res) => {
         const data = getBoardsData();
         if (req.body) {
-            const {name} = req.body
-            const newBoard = {id: Date.now(), name, lists: []}
+            const {name} = req.body;
+            const newBoard = {id: Date.now(), name, lists: []};
             data['boards'].push(newBoard);
             res.send(newBoard);
         } else {
@@ -25,25 +25,17 @@ module.exports = {
     },
     deleteBoard: (req, res) => {
         const data = getBoardsData();
-        const id = Number(req.params.id);
-        let deleted = false;
+        const {id} = getNumberParams(req.params, ['id']);
 
-        data['boards'] = data['boards'].filter((board) => {
-            if (board.id === id) {
-                deleted = true;
-                return false;
-            }
-            return true;
-        });
-
-        if (deleted) {
-            if (writeBoardsData(data)) {
-                res.sendStatus(200);
-            } else {
-                res.sendStatus(500);
-            }
-        } else {
-            res.sendStatus(404);
-        }
-    },
+        handleDelete(res, data, (deleted) => {
+            data['boards'] = data['boards'].filter((board) => {
+                if (board.id === id) {
+                    deleted = true;
+                    return false;
+                }
+                return true;
+            });
+            return deleted;
+        })
+    }
 }

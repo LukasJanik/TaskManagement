@@ -1,4 +1,4 @@
-const {getBoardsData, writeBoardsData, getNumberParams} = require('../utils/utils')
+const {getBoardsData, writeBoardsData, getNumberParams, handleDelete} = require('../utils/utils')
 
 module.exports = {
     createTaskList: (req, res) => {
@@ -43,24 +43,15 @@ module.exports = {
 
         const targetBoard = data['boards'].find(board => board.id === boardId);
 
-        let deleted = false;
-
-        targetBoard.lists = targetBoard.lists.filter((list) => {
-            if (list.id === taskListId) {
-                deleted = true;
-                return false;
-            }
-            return true;
+        handleDelete(res, data, (deleted) => {
+            targetBoard.lists = targetBoard.lists.filter((list) => {
+                if (list.id === taskListId) {
+                    deleted = true;
+                    return false;
+                }
+                return true;
+            });
+            return deleted;
         });
-
-        if (deleted) {
-            if (writeBoardsData(data)) {
-                res.sendStatus(200);
-            } else {
-                res.sendStatus(500);
-            }
-        } else {
-            res.sendStatus(404);
-        }
     },
 }
