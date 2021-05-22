@@ -1,6 +1,5 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Task } from '../../store/Entities/Task/task.model';
 import { NgForm } from '@angular/forms';
 import { CommonDialogData } from '../../definitions/types';
 

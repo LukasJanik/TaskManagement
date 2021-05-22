@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,15 +12,11 @@ import { BoardListComponent } from './components/board-list/board-list.component
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import {
-  SocialLoginModule
-} from 'angularx-social-login';
-import { ListsListComponent } from './components/lists-list/lists-list.component';
+import { TaskListsComponent } from './components/task-lists/task-lists.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
-import { TaskDetailComponent } from './components/task-detail/task-detail.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -30,27 +26,21 @@ import { FormsModule } from '@angular/forms';
 import { TaskListItemComponent } from './components/task-list-item/task-list-item.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
-import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
-import { registerLocaleData } from '@angular/common';
-import localeGB from '@angular/common/locales/en-GB';
 import { BoardEffects } from './store/Effects/board.effects';
-import { TaskSearchComponent } from './components/task-search/task-search.component';
 import { RouterModule } from '@angular/router';
-import { TaskBaseComponent } from './components/task-base/task-base.component';
 import { CommonDialogComponent } from './components/common-dialog/common-dialog.component';
-import { DataService } from './services/data.service';
-
-registerLocaleData(localeGB, 'en-GB');
+import { BoardService } from './services/board.service';
+import { TasksListComponent } from './components/tasks-list/tasks-list.component';
+import { TaskListsService } from './services/task-lists.service';
+import { TaskListsEffects } from './store/effects/task-lists.effects';
 
 @NgModule({
   declarations: [
     AppComponent,
     BoardListComponent,
-    ListsListComponent,
-    TaskDetailComponent,
+    TaskListsComponent,
+    TasksListComponent,
     TaskListItemComponent,
-    TaskSearchComponent,
-    TaskBaseComponent,
     CommonDialogComponent,
   ],
   imports: [
@@ -59,7 +49,7 @@ registerLocaleData(localeGB, 'en-GB');
     BrowserAnimationsModule,
     HttpClientModule,
     StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([BoardEffects]),
+    EffectsModule.forRoot([BoardEffects, TaskListsEffects]),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
     StoreModule.forRoot(reducers, {
       metaReducers,
@@ -69,7 +59,6 @@ registerLocaleData(localeGB, 'en-GB');
       }
     }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    SocialLoginModule,
     MatToolbarModule,
     MatButtonModule,
     MatMenuModule,
@@ -80,7 +69,6 @@ registerLocaleData(localeGB, 'en-GB');
     MatInputModule,
     MatCheckboxModule,
     MatDatepickerModule,
-    MatNativeDateModule,
     MatSliderModule,
     FormsModule,
     MatIconModule,
@@ -88,9 +76,8 @@ registerLocaleData(localeGB, 'en-GB');
     RouterModule,
   ],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
-    {provide: LOCALE_ID, useValue: 'en-GB'},
-    DataService
+    BoardService,
+    TaskListsService
   ],
   bootstrap: [AppComponent]
 })

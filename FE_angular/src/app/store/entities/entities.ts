@@ -1,14 +1,16 @@
 export interface Board {
   name: string;
   id: number;
-  lists: List[];
+  lists: TaskList[];
 }
 
-export interface List {
-  itemsList: Item[];
+export interface TaskList {
+  items: Task[];
+  name: string;
+  id: number;
 }
 
-export interface Item {
+export interface Task {
   name: string;
   id: number;
 }

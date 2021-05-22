@@ -1,6 +1,9 @@
 <mat-toolbar color="primary" class="toolbar mat-elevation-z3">
   <div>
-    Kanban Board
+    <button mat-button routerLink="/boards" (click)="reloadBoards()">Kanban Board</button>
+  </div>
+  <div>
+    <button mat-button routerLink="/boards" (click)="reloadBoards()">Boards</button>
   </div>
 </mat-toolbar>
 <router-outlet></router-outlet>

@@ -5,7 +5,7 @@
   <div mat-dialog-content>
     <mat-form-field appearance="outline" *ngIf="data.showInput;else description">
       <mat-label>{{data.label}}</mat-label>
-      <input matInput name="name" [(ngModel)]="name" required>
+      <input matInput name="common-name" [(ngModel)]="name" required>
     </mat-form-field>
     <div #description>
       {{data.description}}

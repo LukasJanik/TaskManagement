@@ -25,8 +25,8 @@ export const dialogData: { [key in dialogTypes]: CommonDialogData; } = {
     showInput: true
   },
   [dialogTypes.deleteItem]: {
-    title: 'Delete list',
-    description: 'Do you really want to delete this list?'
+    title: 'Delete item',
+    description: 'Do you really want to delete this item?'
   },
 };
 

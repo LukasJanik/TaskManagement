@@ -1,18 +1,15 @@
 <div class="task-box" cdkDrag>
   <div class="flex-row w-100">
-    <div cdkDragHandle class="task-draggable-handle" *ngIf="!usedInSearch">
+    <div cdkDragHandle class="task-draggable-handle">
       <mat-icon aria-hidden="false" aria-label="drag icon">drag_indicator</mat-icon>
     </div>
     <div class="content">
-      <div class="task-clickable">
-        <button mat-button (click)="showDetails.emit(true)">{{task.name}}</button>
+      <div class="task-name">
+        <span>{{task.name}}</span>
       </div>
       <div class="content-right">
-        <mat-chip-list *ngIf="task.due_date">
-          <mat-chip color="accent" selected>{{task.due_date | date : 'shortDate'}}</mat-chip>
-        </mat-chip-list>
-        <button mat-mini-fab color="primary" (click)="delete()">
-          <mat-icon>delete</mat-icon>
+        <button mat-icon-button color="primary" (click)="deleteTask()">
+          <mat-icon>remove</mat-icon>
         </button>
       </div>
     </div>

@@ -5,8 +5,7 @@
     </div>
     <div *ngFor="let board of (boards$ | async)"
          class="board mat-elevation-z5"
-         [routerLink]="['./' + board.id]"
-         (click)="setCurrentBoard(board.id)">
+         [routerLink]="['./' + board.id]">
       <button class="remove-button" mat-icon-button color="primary" (click)="removeBoard($event, board.id)">
         <mat-icon>remove</mat-icon>
       </button>

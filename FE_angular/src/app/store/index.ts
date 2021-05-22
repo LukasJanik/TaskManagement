@@ -2,12 +2,13 @@ import {
   ActionReducerMap, MetaReducer
 } from '@ngrx/store';
 import { environment } from '../../environments/environment';
-import * as fromBoard from './entities/Board/board.reducer';
-import * as fromTask from './Entities/Task/task.reducer';
+import * as fromBoard from './entities/board/board.reducer';
+import * as fromTask from './entities/task-lists/task-lists.reducer';
+import { Board } from './entities/entities';
 
 export interface State {
   [fromBoard.boardFeatureKey]: fromBoard.State;
-  [fromTask.tasksFeatureKey]: fromTask.State;
+  [fromTask.tasksFeatureKey]: Board;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -19,12 +20,6 @@ export const reducers: ActionReducerMap<State> = {
 
 export const selectBoards = (state: State) => state.board.boards;
 export const selectCurrentBoard = (state: State) => {
-  return state.board.currentBoard;
+  return state.tasks;
 };
-export const toDoTasks = (state: State) => state.tasks.todo;
-export const inProgressTasks = (state: State) => state.tasks.in_progress;
-export const doneTasks = (state: State) => state.tasks.done;
-
-export const searchResults = (state: State) => state.tasks.searchTasks;
-
 export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];

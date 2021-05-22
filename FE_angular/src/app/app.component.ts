@@ -1,4 +1,7 @@
 import {Component} from '@angular/core';
+import { Store } from '@ngrx/store';
+import { State } from './store';
+import { reloadBoards } from './store/entities/board/board.actions';
 
 @Component({
   selector: 'app-root',
@@ -6,7 +9,10 @@ import {Component} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'todo-list';
 
-  constructor() {}
+  constructor(private store: Store<State>) {}
+
+  reloadBoards(): void {
+    this.store.dispatch(reloadBoards({}));
+  }
 }

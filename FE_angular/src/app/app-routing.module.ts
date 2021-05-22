@@ -1,25 +1,21 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BoardListComponent } from './components/board-list/board-list.component';
-import { ListsListComponent } from './components/lists-list/lists-list.component';
-import { TaskSearchComponent } from './components/task-search/task-search.component';
+import { TaskListsComponent } from './components/task-lists/task-lists.component';
 
 
 const routes: Routes = [
   {
-    path: '', redirectTo: 'tasks', pathMatch: 'full'
+    path: '', redirectTo: 'boards', pathMatch: 'full'
   },
   {
     path: 'boards', component: BoardListComponent,
   },
   {
-    path: 'boards/:id', component: ListsListComponent,
+    path: 'boards/:id', component: TaskListsComponent,
   },
   {
-    path: 'tasks', component: ListsListComponent,
-  },
-  {
-    path: 'search', component: TaskSearchComponent,
+    path: 'tasks', component: TaskListsComponent,
   }
 ];
 

@@ -6,12 +6,10 @@ export const boardFeatureKey = 'board';
 
 export interface State {
   boards: Board[];
-  currentBoard: Board;
 }
 
 export const initialState: State = {
   boards: [],
-  currentBoard: null,
 };
 
 
@@ -24,25 +22,16 @@ export const reducer = createReducer(
       });
     }
   ),
-  on(BoardActions.addBoard,
+  on(BoardActions.addedBoard,
     (state, action) => {
       return Object.assign({}, state, {
-        boards: [...state.boards, {
-          name: action.name,
-          id: Date.now(),
-          lists: []
-        } as Board]
+        boards: [...state.boards, action.board]
       });
     }
   ),
-  on(BoardActions.removeBoard,
+  on(BoardActions.deleteBoard,
     (state, action) => {
       return Object.assign({}, {boards: state.boards.filter(board => board.id !== action.id)});
-    }
-  ),
-  on(BoardActions.setCurrentBoard,
-    (state, action) => {
-      return Object.assign({}, state, {currentBoard: state.boards.find((board) => board.id === action.id)});
     }
   ),
 );

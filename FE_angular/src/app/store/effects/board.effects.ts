@@ -1,133 +1,89 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
-import { State } from '../index';
+import { selectBoards, selectCurrentBoard, State } from '../index';
 import { Store } from '@ngrx/store';
-import { map } from 'rxjs/operators';
-import { DataService } from '../../services/data.service';
-import { loadedBoards } from '../entities/Board/board.actions';
+import { map, mergeMap, switchMap, withLatestFrom } from 'rxjs/operators';
+import {
+  addBoard,
+  loadedBoards,
+  deleteBoard,
+  findBoard,
+  addedBoard, deletedBoard, reloadBoards
+} from '../entities/board/board.actions';
+import { setBoardData } from '../entities/task-lists/task-lists.actions';
+import { Board } from '../entities/entities';
+import { BoardService } from '../../services/board.service';
 
 @Injectable()
 export class BoardEffects {
   constructor(
     private actions$: Actions,
     private store: Store<State>,
-    private dataService: DataService,
+    private dataService: BoardService,
   ) {
   }
 
 
-  loadTasks$ = createEffect(() => this.actions$
+  loadBoards$ = createEffect(() => this.actions$
     .pipe(ofType(ROOT_EFFECTS_INIT),
-      map(() => {
-        const boards = this.dataService.getBoardData();
-        return loadedBoards({boards});
+      mergeMap(() => this.dataService.getBoards()
+        .pipe(
+          map((boards: Board[]) => {
+            return loadedBoards({boards});
+          }),
+        )
+      )
+    )
+  );
+
+  addBoard$ = createEffect(() => this.actions$
+    .pipe(ofType(addBoard),
+      mergeMap((action) => this.dataService.addBoard(action.name)
+        .pipe(
+          map((board: Board) => {
+            return addedBoard({board});
+          }),
+        )
+      )
+    )
+  );
+
+  deleteBoard$ = createEffect(() => this.actions$
+    .pipe(ofType(deleteBoard),
+      mergeMap((action) => this.dataService.deleteBoard(action.id)
+        .pipe(
+          map(() => {
+            return deletedBoard({id: action.id});
+          }),
+        )
+      )
+    )
+  );
+
+  findBoard$ = createEffect(() => this.actions$
+    .pipe(ofType(findBoard),
+      withLatestFrom(this.store.select(selectBoards)),
+      map(([action, boards]) => {
+        const board = boards.find(item => item.id === action.boardId);
+        return setBoardData({board});
       })
     )
   );
 
-  // loadTasks$ = createEffect(() => this.actions$
-  //   .pipe(ofType(setCurrentUser, loadTasks, loadSearchTasks),
-  //     withLatestFrom(this.store),
-  //     mergeMap(([action, store]) => {
-  //       const user = store.users.currentUser;
-  //       return this.handleTaskLoading(user, action, store.tasks.offset);
-  //     })
-  //   )
-  // );
-  //
-  // addTasks$ = createEffect(() => this.actions$
-  //   .pipe(ofType(addTask),
-  //     withLatestFrom(this.store),
-  //     mergeMap(([action, store]) => {
-  //       const user = store.users.currentUser;
-  //       const localTask = store.tasks.todo[store.tasks.todo.length - 1];
-  //       return this.taskService.addTask(user, localTask)
-  //         .pipe(
-  //           map(task => addedTask({localTask: action.task, remoteTask: task})),
-  //           catchError(() => {
-  //             return of({type: 'Unable to add task for current user'});
-  //           }),
-  //         );
-  //     })
-  //   )
-  // );
-  //
-  // updateTask$ = createEffect(() => this.actions$
-  //   .pipe(ofType(updateTask),
-  //     mergeMap((action) => this.taskService.updateTask(action.task)
-  //       .pipe(
-  //         map(() => updatedTask()),
-  //         catchError(() => {
-  //           return of(loadTasks);
-  //         }),
-  //       )
-  //     )
-  //   )
-  // );
-  //
-  // updateTasks$ = createEffect(() => this.actions$
-  //   .pipe(ofType(dragTask),
-  //     withLatestFrom(this.store),
-  //     mergeMap(([action, store]) => {
-  //         const listsToCheck = action.previousList === action.currentList ?
-  //           [action.currentList] : [action.currentList, action.previousList];
-  //         const tasksToUpdate = [];
-  //         const lists = store.tasks;
-  //
-  //         listsToCheck.forEach(listType => {
-  //           const list = lists[listType];
-  //           for (let i = 0; i < list.length; i++) {
-  //             if (list[i].index !== i || list[i].status !== listType) {
-  //               const toUpdate = Object.assign({}, list[i]);
-  //               toUpdate.status = listType;
-  //               toUpdate.index = i;
-  //               tasksToUpdate.push(toUpdate);
-  //             }
-  //           }
-  //         });
-  //
-  //         return this.taskService.updateTasks(tasksToUpdate)
-  //           .pipe(
-  //             map((tasks) => updatedTasks({tasks})),
-  //             catchError(() => {
-  //               return of(loadTasks);
-  //             }),
-  //           );
-  //       }
-  //     )
-  //   )
-  // );
-  //
-  // removeTask$ = createEffect(() => this.actions$
-  //   .pipe(ofType(removeTask),
-  //     mergeMap((action) => this.taskService.removeTask(action.task)
-  //       .pipe(
-  //         map(() => removedTask()),
-  //         catchError(() => {
-  //           return of(loadTasks);
-  //         }),
-  //       )
-  //     )
-  //   )
-  // );
-  //
-  // private handleTaskLoading(user: User, action: any, offset: number): Observable<Action> {
-  //   if (this.router.url.includes('tasks')) {
-  //     return this.taskService.getUserTasks(user)
-  //       .pipe(
-  //         map(tasks => loadedTasks({tasks})),
-  //         catchError(() => {
-  //           return of({type: 'Unable to load current user\'s tasks'});
-  //         }),
-  //       );
-  //   } else {
-  //     return this.taskService.searchUserTasks(user, offset, action.expression)
-  //       .pipe(
-  //         map(tasks => loadedSearchTasks({tasks})),
-  //         catchError(() => {
-  //           return of({type: 'Unable to load current user\'s tasks'});
-  //         }),
-  //       );
-  //   }
-  // }
+  reloadBoards$ = createEffect(() => this.actions$
+    .pipe(ofType(reloadBoards),
+      withLatestFrom(this.store.select(selectCurrentBoard)),
+      mergeMap(([action, board]) =>
+        this.dataService.getBoards().pipe(
+          switchMap(boards =>
+            board.id || action.boardId ?
+              [
+                loadedBoards({boards}),
+                setBoardData({board: boards.find(reloadedBoard => reloadedBoard.id === (board.id || action.boardId))})
+              ] : [loadedBoards({boards})]
+          )
+        )
+      )
+    )
+  );
 }
