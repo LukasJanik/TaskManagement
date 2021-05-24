@@ -4,11 +4,6 @@
   justify-content: space-between;
 }
 
-/*.toolbar-menu {*/
-/*  display: inline-flex;*/
-/*  border-right: 1px solid whitesmoke;*/
-/*}*/
-
 .w-100 {
   width: 100%;
 }
@@ -38,4 +33,55 @@ h1 {
   display: block;
   margin: 20px auto 0 auto;
   font-size: xx-large;
+}
+
+.add-button-large {
+  display: block;
+  width: 200px;
+  margin-left: auto;
+}
+
+.app-content {
+  padding: 40px 80px
+}
+
+.app-content-header {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.header {
+  margin: auto auto auto 0;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+@media (max-width: 533px) {
+  .app-content {
+    padding: 40px 20px;
+    margin: auto;
+  }
+
+  .app-content-header div {
+    margin: 20px auto;
+    width: 100%;
+  }
+
+  .app-content-header button, .header h1 {
+    margin: 10px auto;
+  }
+
+  .app-content-header div {
+    margin: auto;
+  }
+}
+
+@media (max-width: 408px) {
+  .app-content {
+    padding: 40px 0;
+  }
 }

@@ -9,9 +9,8 @@
 }
 
 mat-card {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   min-height: 202px;
-  min-width: 276px;
 }
 
 mat-card-title-group {
@@ -46,4 +45,10 @@ hr {
   height: 1px;
   background: #333;
   background-image: linear-gradient(to right, #ccc, #333, #ccc);
+}
+
+@media (max-width: 375px) {
+  .mat-form-field {
+    width: 80%;
+  }
 }

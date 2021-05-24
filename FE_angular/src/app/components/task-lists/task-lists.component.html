@@ -1,10 +1,10 @@
 <div *ngIf="(board$ | async) as board">
-  <div class="task-lists-container-header">
+  <div class="app-content-header">
     <div class="header">
       <h1 class="primary">{{board.name}}</h1>
     </div>
     <div>
-      <button mat-raised-button color="primary" class="add-task-button" (click)="addList()">Add list</button>
+      <button mat-raised-button color="primary" class="add-button-large" (click)="addList()">Add list</button>
     </div>
   </div>
   <div class="task-lists-container" cdkDropListGroup>

@@ -1,8 +1,8 @@
 <div class="board-list-wrapper">
+  <div class="app-content-header">
+    <button mat-raised-button color="primary" class="add-button-large" (click)="addBoard()">Add board</button>
+  </div>
   <div class="board-list">
-    <div class="w-100 flex-row">
-      <button mat-raised-button color="primary" class="add-board-button" (click)="addBoard()">Add board</button>
-    </div>
     <div *ngFor="let board of (boards$ | async)"
          class="board mat-elevation-z5"
          [routerLink]="['./' + board.id]">

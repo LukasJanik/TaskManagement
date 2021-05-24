@@ -58,7 +58,7 @@ export class TaskListsService {
   }
 
   /** Updates TaskLists after Drag&Drop
-   * @returns remove board
+   * @returns True/False
    */
   public updateTaskLists(boardId: number, lists: TaskList[]): Observable<boolean> {
     const finalPath = `${environment.host()}/boards/${boardId}/task-list`;
